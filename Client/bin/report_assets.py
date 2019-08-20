@@ -125,43 +125,12 @@ if __name__ == '__main__':
         ]
     }
 
-
-    linux_data = {
-        "asset_type": "server",
-        "manufacturer": "innotek GmbH",
-        "sn": "00001211",
-        "model": "VirtualBox",
-        "uuid": "E8DE611C-4279-495C-9B58-502B6FCED076",
-        "wake_up_type": "Power Switch",
-        "os_distribution": "Ubuntu",
-        "os_release": "Ubuntu 16.04.3 LTS",
-        "os_type": "Linux",
-        "cpu_count": "2",
-        "cpu_core_count": "4",
-        "cpu_model": "Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz",
-        "ram": [
-            {
-                "slot": "A1",
-                "capacity": 19,
-            },
-            {
-                "slot": "A2",
-                "capacity": 8,
-                "model": "Physical Memory",
-                "manufacturer": "kingstone ",
-                "sn": "456"
-            },
-        ],
-        "ram_size": 3.858997344970703,
-        "nic": [],
-        "physical_disk_driver": [
-            {
-                "model": "VBOX HARDDISK",
-                "size": "50",
-                "sn": "VBeee1ba73-09085302"
-            }
-        ]
-    }
+#必须要把null转化下，因为python 无法识别
+    global null,true,false
+    null = ''
+    true=1
+    false=0
+    linux_data={"_id": {"$oid": "5d5514309b38edbb05992186"}, "Placement": {"Zone": "ap-guangzhou-4", "ProjectId": 1010937, "HostIds": null}, "InstanceId": "ins-4mjdz5u2", "InstanceType": "S2.2XLARGE16", "CPU": 8, "Memory": 16, "RestrictState": "NORMAL", "InstanceName": "\u672a\u547d\u540d3", "InstanceChargeType": "POSTPAID_BY_HOUR", "SystemDisk": {"DiskType": "CLOUD_PREMIUM", "DiskId": "disk-qt38uive", "DiskSize": 50}, "DataDisks": [{"DiskSize": 200, "DiskType": "CLOUD_PREMIUM", "DiskId": "disk-evaid2dg", "DeleteWithInstance": true, "SnapshotId": null}], "PrivateIpAddresses": ["10.8.6.5"], "PublicIpAddresses": null, "InternetAccessible": {"InternetChargeType": "TRAFFIC_POSTPAID_BY_HOUR", "InternetMaxBandwidthOut": 0, "PublicIpAssigned": null, "BandwidthPackageId": null}, "VirtualPrivateCloud": {"VpcId": "vpc-m4cwhr8p", "SubnetId": "subnet-pqxoyuae", "AsVpcGateway": false, "PrivateIpAddresses": null}, "ImageId": "img-9qabwvbn", "RenewFlag": null, "CreatedTime": "2019-08-14T08:15:42Z", "ExpiredTime": null, "OsName": "CentOS 7.6 64\u4f4d", "SecurityGroupIds": ["sg-fwknr3wh"], "LoginSettings": {"Password": null, "KeyIds": null, "KeepImageLogin": null}, "InstanceState": "RUNNING", "Tags": [], "StopChargingMode": "NOT_APPLICABLE", "asset_type": "server", "sn": "ins-4mjdz5u2", "os_distribution": "Linux", "os_type": "Linux", "os_release": "CentOS 7.6 64\u4f4d", "cpu_count": 1, "cpu_model": "inter", "cpu_core_count": 8, "ram": [{"slot": "A1", "capacity": 16}], "physical_disk_driver": [{"model": "FAST", "size": "666", "sn": "disk-evaid2dg"}], "idcname": "ap-guangzhou-4", "ip": ["10.8.6.5"]}
 
     update_test(linux_data)
-    update_test(windows_data)
+    #update_test(windows_data)

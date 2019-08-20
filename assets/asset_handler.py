@@ -10,6 +10,7 @@ class NewAsset(object):
     def add_to_new_assets_zone(self):
         defaults = {
             'data': json.dumps(self.data),
+            #因为所有都是服务器这里写死  都是服务器
             'asset_type': self.data.get('asset_type'),
             'manufacturer': self.data.get('manufacturer'),
             'model': self.data.get('model'),
@@ -78,7 +79,9 @@ class ApproveAsset:
             self._create_disk(asset)  # 创建硬盘
             self._create_nic(asset)  # 创建网卡
             self._create_manufacturer(asset)  # 创建厂商
+            self._create_idc(asset)  # 从审批资产区把资产加入到对应的idc机房里面去
             self._delete_original_asset()  # 从待审批资产区删除已审批上线的资产
+
         except Exception as e:
             asset.delete()
             log('approve_failed', msg=str(e), new_asset=self.new_asset, request=self.request)
@@ -95,11 +98,13 @@ class ApproveAsset:
         创建资产并上线
         :return:
         """
+        print(self.data)
         # 利用request.user自动获取当前管理人员的信息，作为审批人添加到资产数据中。
         asset = models.Asset.objects.create(asset_type=self.new_asset.asset_type,
                                             name="%s: %s" % (self.new_asset.asset_type, self.new_asset.sn),
                                             sn=self.new_asset.sn,
                                             approved_by=self.request.user,
+                                            manage_ip=self.data['ip']
                                             )
         return asset
 
@@ -125,8 +130,8 @@ class ApproveAsset:
         # 判断厂商数据是否存在。如果存在，看看数据库里是否已经有该厂商，再决定是获取还是创建。
         m = self.new_asset.manufacturer
         if m:
-            manufacturer_obj, _ = models.Manufacturer.objects.get_or_create(name=m)
-            asset.manufacturer = manufacturer_obj
+            # manufacturer_obj, _ = models.Manufacturer.objects.get_or_create(name=m)
+            asset.manufacturer = models.Manufacturer.objects.get_or_create(name=m)
             asset.save()
 
     def _create_CPU(self, asset):
@@ -185,7 +190,7 @@ class ApproveAsset:
             disk.model = disk_dict.get('model')
             disk.manufacturer = disk_dict.get('manufacturer'),
             disk.slot = disk_dict.get('slot')
-            disk.capacity = disk_dict.get('capacity', 0)
+            disk.capacity = disk_dict.get('size', 0)
             iface = disk_dict.get('interface_type')
             if iface in ['SATA', 'SAS', 'SCSI', 'SSD', 'unknown']:
                 disk.interface_type = iface
@@ -218,6 +223,19 @@ class ApproveAsset:
                 if len(nic_dict.get('net_mask')) > 0:
                     nic.net_mask = nic_dict.get('net_mask')[0]
             nic.save()
+
+
+    def _create_idc(self, asset):
+        idcname = self.data.get("idcname")
+        if not idcname:
+            return
+        else:
+            idc_obj, _ = models.IDC.objects.get_or_create(name=idcname)
+            asset.idc = idc_obj
+            asset.save()
+
+
+
 
     def _delete_original_asset(self):
         """
@@ -371,9 +389,11 @@ class UpdateAsset:
                     'slot': new_disks_dict[key].get('slot'),
                     'model': new_disks_dict[key].get('model'),
                     'manufacturer': new_disks_dict[key].get('manufacturer'),
-                    'capacity': new_disks_dict[key].get('capacity', 0),
+                    'capacity': new_disks_dict[key].get('size', 0),
                     'interface_type': interface_type,
                 }
+
+
                 models.Disk.objects.update_or_create(asset=self.asset, sn=key, defaults=defaults)
 
     def _update_nic(self):
