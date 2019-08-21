@@ -42,7 +42,7 @@
                         <th>子类型</th>
                         <th>资产名称</th>
                         <th>SN</th>
-                        <th>业务线</th>
+                        <th>IP地址</th>
                         <th>状态</th>
                         <th>机房</th>
                         <th>更新日期</th>
@@ -78,7 +78,7 @@
 
                         <td>{{ asset.sn }}</td>
 
-                        <td>{{ asset.business_unit|default_if_none:"-" }}</td>
+                        <td>{{ asset.manage_ip|default_if_none:"-" }}</td>
 
                         {% if asset.status == 0 %}
                           <td><label class="label label-success">{{ asset.get_status_display }}</label></td>
@@ -117,7 +117,7 @@
                         <th>子类型</th>
                         <th>资产名称</th>
                         <th>SN</th>
-                        <th>业务线</th>
+                        <th>IP地址</th>
                         <th>状态</th>
                         <th>机房</th>
                         <th>更新日期</th>
