@@ -73,11 +73,16 @@ class ApproveAsset:
         # 在实际的生产环境中，下面的操作应该是原子性的整体事务，任何一步出现异常，所有操作都要回滚。
         asset = self._create_asset()
         try:
-            self._create_server(asset)  # 创建服务器
+            self._create_server(asset)# 创建服务器
+            print("创建服务器成功")
             self._create_CPU(asset)  # 创建CPU
+            print("创建CPU成功")
             self._create_RAM(asset)  # 创建内存
+            print("创建内存成功")
             self._create_disk(asset)  # 创建硬盘
+            print("创建硬盘成功")
             self._create_nic(asset)  # 创建网卡
+            print("创建网卡成功")
             self._create_manufacturer(asset)  # 创建厂商
             self._create_idc(asset)  # 从审批资产区把资产加入到对应的idc机房里面去
             self._delete_original_asset()  # 从待审批资产区删除已审批上线的资产
@@ -104,7 +109,7 @@ class ApproveAsset:
                                             name="%s: %s" % (self.new_asset.asset_type, self.new_asset.sn),
                                             sn=self.new_asset.sn,
                                             approved_by=self.request.user,
-                                            manage_ip=self.data['ip']
+                                            manage_ip=self.data['ip'][0]
                                             )
         return asset
 
@@ -178,10 +183,12 @@ class ApproveAsset:
         :param asset:
         :return:
         """
+
         disk_list = self.data.get('physical_disk_driver')
-        if not disk_list:  # 一条硬盘数据都没有
+        if not disk_list or disk_list == '0':  # 一条硬盘数据都没有
             return
         for disk_dict in disk_list:
+            print(disk_dict)
             if not disk_dict.get('sn'):
                 raise ValueError("未知sn的硬盘！")  # 根据sn确定具体某块硬盘。
             disk = models.Disk()

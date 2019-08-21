@@ -260,7 +260,20 @@ desired effect
         <li><a href="{% url 'assets:dashboard' %}"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a></li>
         <li><a href="{% url 'assets:index' %}"><i class="fa fa-table"></i> <span>资产总表</span></a></li>
 
-          <li><a href="{% url 'assets:txinfo' %}"><i class="fa fa-table"></i> <span>腾讯云信息</span></a></li>
+          <li><a href="{% url 'assets:txinfo' %}"><i class="fa fa-pencil-square"></i> <span>腾讯云信息</span></a></li>
+          <!--下拉菜单       实现任务中兴 -->
+          <li class="active treeview menu-open">
+          <a href="#">
+            <i class="fa fa-terminal"></i> <span>任务中心</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="{% url 'assets:sintask' %}"><i class="fa fa-circle-o"></i> 单次任务作业</a></li>
+            <li><a href="{% url 'assets:multtask' %}"><i class="fa fa-circle-o"></i> 批量任务</a></li>
+          </ul>
+        </li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

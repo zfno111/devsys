@@ -140,7 +140,7 @@ if __name__ == '__main__':
     collection = db.myset
 
     # 访问表的一行数据
-    results1 = collection.find()
+    results1 = collection.find().limit(10)
     for results in results1:
         results['asset_type'] = 'server'
         results['sn'] = results['InstanceId']

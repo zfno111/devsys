@@ -113,3 +113,37 @@ def txinfo(request):
 
 
 
+
+
+def test1(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login/')
+    total = models.Asset.objects.count()
+    upline = models.Asset.objects.filter(status=0).count()
+    offline = models.Asset.objects.filter(status=1).count()
+    unknown = models.Asset.objects.filter(status=2).count()
+    breakdown = models.Asset.objects.filter(status=3).count()
+    backup = models.Asset.objects.filter(status=4).count()
+
+    up_rate = round(upline/total*100)
+    o_rate = round(offline / total * 100)
+    un_rate = round(unknown / total * 100)
+    bd_rate = round(breakdown / total * 100)
+    bu_rate = round(backup / total * 100)
+
+    server_number = models.Server.objects.count()
+    networkdevice_number = models.NetworkDevice.objects.count()
+    storagedevice_number = models.StorageDevice.objects.count()
+    securitydevice_number = models.SecurityDevice.objects.count()
+    software_number = models.Software.objects.count()
+
+    return render(request, 'assets/test1.html', locals())
+
+
+def sintask(request):
+    return render(request, 'assets/sintask.html', locals())
+
+def multtask(request):
+    return HttpResponse("multtask there")
+
+
