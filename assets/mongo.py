@@ -1,7 +1,10 @@
-from pymongo import MongoClient
-import json
-from bson import json_util
+import os,django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "devsys.settings")# project_name 项目名称
+django.setup()
 
+from pymongo import MongoClient
+
+from assets.models import Asset
 
 # 建立和数据库系统的连接,指定host及port参数
 client = MongoClient('129.204.178.29', 27017)
@@ -10,7 +13,11 @@ db = client.monitor
 db.authenticate("monitor", "DReqd0AqLCUTgVzx")
 # 连接表
 collection = db.myset
+results=list(collection.find())
 
+#获取所有的资产信息
+
+assets = Asset.objects.get(name="weather3-og.pagoda.com.cn")
 
 # 访问表的一行数据
 results=collection.find_one()

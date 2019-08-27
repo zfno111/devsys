@@ -19,7 +19,6 @@ def index(request):
     return render(request, 'assets/index.html', locals())
 
 
-
 def dashboard(request):
     if not request.session.get('is_login', None):
         return redirect('/login/')
@@ -57,8 +56,6 @@ def detail(request, asset_id):
     #这里注意这个用法！ 固定用法
     asset = get_object_or_404(models.Asset, id=asset_id)
     return render(request, 'assets/detail.html', locals())
-
-
 
 
 @csrf_exempt
@@ -141,9 +138,12 @@ def test1(request):
 
 
 def sintask(request):
+
+    AllServer = models.Asset.objects.count()
     return render(request, 'assets/sintask.html', locals())
 
 def multtask(request):
-    return HttpResponse("multtask there")
+    AllServer = models.Asset.objects.count()
+    return render(request, 'assets/multtask.html', locals())
 
 

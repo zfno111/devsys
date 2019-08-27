@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}仪表盘{% endblock %}
+{% block css %} {% endblock %}
+
+{% block breadcrumb %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        任务中心
+        <small>jobcenter</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 任务</a></li>
+        <li class="active">JOBCENTER</li>
+      </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+  <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <select id="first" onChange="change()">
+            <option selected="selected">quickbi</option>
+            <option>标签一代</option>
+                <option>标签二代</option>
+            </select>
+
+            <select id="second">
+                 <option>生产环境重启</option>
+                    <option selected="selected">取消缓存</option>
+             </select>
+
+      </div>
+      <!-- /.row -->
+
+        <form action="/demo/demo_form.asp" id="test1"    >
+                    First name:<br>
+                <input type="text" name="firstname" value="Mickey">
+                <br>
+                Last name:<br>
+                <input type="text" name="lastname" value="Mouse">
+                <br><br>
+                <input type="submit" value="Submit">
+                </form>
+    </section>
+
+
+
+<script>
+function change()
+{
+   var x = document.getElementById("first");
+   var y = document.getElementById("second");
+   y.options.length = 0; // 清除second下拉框的所有内容
+   if(x.selectedIndex == 0)
+   {
+		y.options.add(new Option("生产环境重启", "0"));
+		y.options.add(new Option("取消缓存", "1", false, true));  // 默认选中省会城市
+   }
+
+   if(x.selectedIndex == 1)
+   {
+
+
+    document.getElementById("idname").style.visibility="visible";
+		y.options.add(new Option("test1", "0"));
+		y.options.add(new Option("test2", "1", false, true));  // 默认选中省会城市
+		y.options.add(new Option("test3", "2"));
+   }
+
+}
+</script>
+
+
+{% endblock %}
+
+{% block script %}
+
+<script src="https://cdn.bootcss.com/echarts/4.2.1/echarts.min.js"></script>
+<script src="{% static 'adminlet-2.4.10/bower_components/jquery-knob/js/jquery.knob.js' %}"></script>
+
+
+<script>
+
+</script>
+{% endblock %}

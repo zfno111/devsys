@@ -30,6 +30,9 @@
         <div class="box">
         <div class="box-header">
           <h3 class="box-title">资产总表<small>(不含软件)</small></h3>
+        <div align="right" style="position:relative;top:10px">
+            <button type="button" class="btn btn-success" id="flushdata">点击手动刷新资产信息</button>
+        </div>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -38,15 +41,21 @@
                 <thead>
                     <tr>
                         <th>序号</th>
-                        <th>资产类型</th>
-                        <th>子类型</th>
-                        <th>资产名称</th>
-                        <th>SN</th>
-                        <th>IP地址</th>
-                        <th>状态</th>
-                        <th>机房</th>
-                        <th>更新日期</th>
-                        <th>标签</th>
+                        <th>主机域名</th>
+                        <th>环境</th>
+                        <th>操作系统类型</th>
+                        <th>账号</th>
+                        <th>密码</th>
+                        <th>ip-内网</th>
+                        <th>ip-外网</th>
+                        <th>CPU</th>
+                        <th>内存</th>
+                        <th>描述信息</th>
+                        <th>系统盘</th>
+                        <th>数据盘</th>
+                        <th>带宽</th>
+                        <th>安全组</th>
+                        <th>分组</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,53 +65,34 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
 
-                        {% if asset.asset_type == 'server' %}
-                          <td class="text-green text-bold">{{ asset.get_asset_type_display }}</td>
-                          <td>{{ asset.server.get_sub_asset_type_display }}</td>
-                        {% elif asset.asset_type == "networkdevice" %}
-                          <td class="text-yellow text-bold">{{ asset.get_asset_type_display }}</td>
-                          <td>{{ asset.networkdevice.get_sub_asset_type_display }}</td>
-                        {% elif asset.asset_type == "storagedevice" %}
-                          <td class="text-blue text-bold">{{ asset.get_asset_type_display }}</td>
-                          <td>{{ asset.storagedevice.get_sub_asset_type_display }}</td>
-                        {% elif asset.asset_type == "securitydevice" %}
-                          <td class="text-red text-bold">{{ asset.get_asset_type_display }}</td>
-                          <td>{{ asset.securitydevice.get_sub_asset_type_display }}</td>
-                        {% endif %}
 
-                        {% if asset.asset_type == 'server' %}
-                            <td><a href="{% url 'assets:detail' asset.id %}">{{ asset.name }}</a></td>
-                        {% else %}
-                            <td>{{ asset.name }}</td>
-                        {% endif %}
+                        <td class="text-green text-bold">{{ asset.name }}</td>
+                        <td>{{ asset.envir }}</td>
 
-                        <td>{{ asset.sn }}</td>
 
-                        <td>{{ asset.manage_ip|default_if_none:"-" }}</td>
+                        <td><a href="{% url 'assets:detail' asset.id %}">{{ asset.ossys }}</a></td>
 
-                        {% if asset.status == 0 %}
-                          <td><label class="label label-success">{{ asset.get_status_display }}</label></td>
-                        {% elif asset.status == 1 %}
-                          <td><label class="label label-warning">{{ asset.get_status_display }}</label></td>
-                        {% elif asset.status == 2 %}
-                          <td><label class="label label-default">{{ asset.get_status_display }}</label></td>
-                        {% elif asset.status == 3 %}
-                          <td><label class="label label-danger">{{ asset.get_status_display }}</label></td>
-                        {% elif asset.status == 4 %}
-                          <td><label class="label label-info">{{ asset.get_status_display }}</label></td>
-                        {% endif %}
 
-                        <td>{{ asset.idc|default:"-" }}</td>
+                        <td class="text-bold" >{{ asset.userid }}</td>
 
-                        <td>{{ asset.m_time|date:"Y/m/d [H:m:s]" }}</td>
+                        <td>{{ asset.userpasswd|default_if_none:"-" }}</td>
 
-                        <td>
-                          {% for tag in asset.tags.all %}
-                            <label class="label label-primary">{{ tag.name }}</label>
-                            {% empty %}
-                              -
-                            {% endfor %}
-                        </td>
+                        <td class="text-blue">{{ asset.ipin }}</td>
+
+                        <td class="text-danger">{{ asset.ipout }}</td>
+
+                        <td>{{ asset.cpu|default:"-" }}</td>
+
+                        <td>{{ asset.mem }}</td>
+
+                        <td>{{ asset.desc }}</td>
+
+                        <td>{{ asset.desc }}</td>
+                    <td>{{ asset.sysdisk }}</td>
+                    <td>{{ asset.datadisk }}</td>
+                    <td>{{ asset.bandwidth }}</td>
+                    <td>{{ asset.group }}</td>
+
                     </tr>
 
                 {% empty %}

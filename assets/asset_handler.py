@@ -243,7 +243,6 @@ class ApproveAsset:
 
 
 
-
     def _delete_original_asset(self):
         """
         这里的逻辑是已经审批上线的资产，就从待审批区删除。

@@ -4,7 +4,6 @@ import json
 
 import urllib.request
 import urllib.parse
-
 import os
 import sys
 
@@ -34,7 +33,6 @@ def update_test(data):
     except Exception as e:
         message = "发送失败"
         print("\033[31;1m发送失败，%s\033[0m" % e)
-
 
 if __name__ == '__main__':
     windows_data = {

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/upload_ajax/" enctype="multipart/form-data" method="POST">
+    <input type="text" name="user" id="user"/>
+    <input type="file" name="img" id="img"/>
+
+</form>
+    <a style="cursor: pointer;display: inline-block;background-color: black;color: white" onclick="UploadFile1();">XMLHttpRequest上传</a>
+    <a style="cursor: pointer;display: inline-block;background-color: black;color: white" onclick="UploadFile2();">jQuery上传</a>
+    <script src="/static/jquery-1.12.4.js"></script>
+</body>
+</html>
