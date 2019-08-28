@@ -2,8 +2,11 @@
 {% load static %}
 {% block title %}资产总表{% endblock %}
 
+
 {% block css %}
      <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+//  jquary datatable X轴滚动条可以实现单行 滚动条显示，否者会出线无限显示的情况
+    th, td { white-space: nowrap; }
 {% endblock %}
 
 {% block breadcrumb %}
@@ -87,10 +90,10 @@
 
                         <td>{{ asset.desc }}</td>
 
-                        <td>{{ asset.desc }}</td>
                     <td>{{ asset.sysdisk }}</td>
                     <td>{{ asset.datadisk }}</td>
                     <td>{{ asset.bandwidth }}</td>
+                    <td>{{ asset.secgroup }}</td>
                     <td>{{ asset.group }}</td>
 
                     </tr>
@@ -102,16 +105,22 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>序号</th>
-                        <th>资产类型</th>
-                        <th>子类型</th>
-                        <th>资产名称</th>
-                        <th>SN</th>
-                        <th>IP地址</th>
-                        <th>状态</th>
-                        <th>机房</th>
-                        <th>更新日期</th>
-                        <th>标签</th>
+                                                <th>序号</th>
+                        <th>主机域名</th>
+                        <th>环境</th>
+                        <th>操作系统类型</th>
+                        <th>账号</th>
+                        <th>密码</th>
+                        <th>ip-内网</th>
+                        <th>ip-外网</th>
+                        <th>CPU</th>
+                        <th>内存</th>
+                        <th>描述信息</th>
+                        <th>系统盘</th>
+                        <th>数据盘</th>
+                        <th>带宽</th>
+                        <th>安全组</th>
+                        <th>分组</th>
                     </tr>
                 </tfoot>
             </table>
@@ -141,7 +150,9 @@ $(function () {
           "searching": true,    <!-- 允许内容搜索 -->
           "ordering": true,     <!-- 允许排序 -->
           "info": true,         <!-- 显示信息 -->
-          "autoWidth": false    <!-- 固定宽度 -->
+          "autoWidth": false,    <!-- 固定宽度 -->
+          "scrollX":true,//水平滚动
+          "responsive": false//关闭响应式效果,否则以上设置无效
         });
       });
 

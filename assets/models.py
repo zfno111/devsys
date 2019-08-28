@@ -18,7 +18,7 @@ class Asset(models.Model):
     #内网IP
     ipin = models.CharField(max_length=32,unique=True,verbose_name="内网IP")
     #外网IP
-    ipout = models.CharField(max_length=32,unique=True,verbose_name="外网IP")
+    ipout = models.CharField(max_length=32,unique=False,verbose_name="外网IP")
     #CPU信息
     cpu =  models.CharField(max_length=16,verbose_name="CPU信息")
     #内存信息
@@ -34,7 +34,7 @@ class Asset(models.Model):
     #安全组
     secgroup = models.CharField(max_length=16,verbose_name="安全组")
     #分组
-    group =  models.CharField(max_length=16,verbose_name="分组")
+    group =  models.CharField(max_length=32,verbose_name="分组")
 
     def __str__(self):
         return self.name
