@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse,redirect
 from django.views.decorators.csrf import csrf_exempt
-import json
+import json,os
 from assets import models
 from assets import asset_handler
 from django.shortcuts import get_object_or_404
+from django.core import serializers
 
 
 def index(request):
@@ -22,24 +23,6 @@ def index(request):
 def dashboard(request):
     if not request.session.get('is_login', None):
         return redirect('/login/')
-    total = models.Asset.objects.count()
-    upline = models.Asset.objects.filter(status=0).count()
-    offline = models.Asset.objects.filter(status=1).count()
-    unknown = models.Asset.objects.filter(status=2).count()
-    breakdown = models.Asset.objects.filter(status=3).count()
-    backup = models.Asset.objects.filter(status=4).count()
-
-    up_rate = round(upline/total*100)
-    o_rate = round(offline / total * 100)
-    un_rate = round(unknown / total * 100)
-    bd_rate = round(breakdown / total * 100)
-    bu_rate = round(backup / total * 100)
-
-    server_number = models.Server.objects.count()
-    networkdevice_number = models.NetworkDevice.objects.count()
-    storagedevice_number = models.StorageDevice.objects.count()
-    securitydevice_number = models.SecurityDevice.objects.count()
-    software_number = models.Software.objects.count()
 
     return render(request, 'assets/dashboard.html', locals())
 
@@ -87,7 +70,6 @@ def report(request):
 
     return HttpResponse('200 ok')
 
-
 import json
 def test(request):
     print("请求到达")
@@ -107,8 +89,6 @@ def test(request):
 
 def txinfo(request):
     return render(request, 'assets/ajax_test.html', locals())
-
-
 
 
 
@@ -136,7 +116,6 @@ def test1(request):
 
     return render(request, 'assets/test1.html', locals())
 
-
 def sintask(request):
 
     AllServer = models.Asset.objects.count()
@@ -145,5 +124,44 @@ def sintask(request):
 def multtask(request):
     AllServer = models.Asset.objects.count()
     return render(request, 'assets/multtask.html', locals())
+
+@csrf_exempt
+def api(request):
+    print("请求到达")
+    ret = {
+        'name': 'success',
+        'envir': "服务器返回的数据"
+    }
+    if request.method == "POST" and request.POST.get('mession') == "updatemongo":
+        print("post 请求到达")
+        from . import mongo
+        #更新mongodb里面的数据
+        AAA=mongo.UpdateMongo()
+        print("there")
+        return HttpResponse(json.dumps(ret))
+    elif request.method == "POST" and request.POST.get('mession') == "fileupload":
+        f_obj = request.FILES.get("f")
+        print(f_obj)
+        name = f_obj.name
+        print(name)
+        ftchoice=request.POST.get("ftchoice")
+        sechoice=request.POST.get("sechoice")
+        global destination
+        if ftchoice=="quickbi测试环境" and sechoice=="前端HTML更新":
+            if not os.path.isdir("/opt/upload/quickbitest"):
+                os.mkdir("/opt/upload/quickbitest")
+            destination = open(os.path.join("/opt/upload/quickbitest", name), 'wb+')
+        elif ftchoice=="quickbi开发环境" and sechoice == "前端更新":
+            destination = open(os.path.join("/opt/upload/quickbidev", name), 'wb+')
+
+        for chunk in f_obj.chunks():  # 分块写入文件
+            destination.write(chunk)
+        destination.close()
+
+        return HttpResponse("上传成功")
+
+
+
+
 
 

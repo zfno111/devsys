@@ -34,7 +34,7 @@ class Asset(models.Model):
     #安全组
     secgroup = models.CharField(max_length=16,verbose_name="安全组")
     #分组
-    group =  models.CharField(max_length=32,verbose_name="分组")
+    group =  models.CharField(max_length=64,verbose_name="分组")
 
     def __str__(self):
         return self.name

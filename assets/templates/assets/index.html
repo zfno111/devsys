@@ -2,12 +2,11 @@
 {% load static %}
 {% block title %}资产总表{% endblock %}
 
-
-{% block css %}
+<head>
      <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
-//  jquary datatable X轴滚动条可以实现单行 滚动条显示，否者会出线无限显示的情况
+<!-- jquary datatable X轴滚动条可以实现单行 滚动条显示，否者会出线无限显示的情况 -->
     th, td { white-space: nowrap; }
-{% endblock %}
+</head>
 
 {% block breadcrumb %}
 <!-- Content Header (Page header) -->
@@ -61,20 +60,15 @@
                         <th>分组</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="test2">
+
 
                 {% for asset in assets %}
-
                     <tr>
                         <td>{{ forloop.counter }}</td>
-
-
                         <td class="text-green text-bold">{{ asset.name }}</td>
                         <td>{{ asset.envir }}</td>
-
-
                         <td><a href="{% url 'assets:detail' asset.id %}">{{ asset.ossys }}</a></td>
-
 
                         <td class="text-bold" >{{ asset.userid }}</td>
 
@@ -151,10 +145,29 @@ $(function () {
           "ordering": true,     <!-- 允许排序 -->
           "info": true,         <!-- 显示信息 -->
           "autoWidth": false,    <!-- 固定宽度 -->
-          "scrollX":true,//水平滚动
-          "responsive": false//关闭响应式效果,否则以上设置无效
+          "scrollX":true,   <!--水平滚动-->
+          "responsive": false,   <!--关闭响应式效果,否则以上设置无效-->
         });
       });
+
+
+$('#flushdata').click(function () {
+       $.ajax(
+            {
+                url:'/assets/api/',
+                data:{'useername':'zf','mession':'updatemongo'},
+                type:'POST',
+                dataType:'json',
+                success:function (data) {
+                    window.location.reload()
+                },
+                error:function(data){
+                    alert("新增失败");
+                }
+            }
+        )
+    })
+
 
 </script>
 

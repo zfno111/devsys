@@ -15,5 +15,6 @@ urlpatterns = [
     path('txinfo/', views.txinfo, name="txinfo"),
     path('sintask/', views.sintask, name='sintask'),
     path('multtask/', views.multtask, name='multtask'),
-    path('', views.dashboard),
+    path('api/', views.api, name="api"),
+    path('', views.index),
 ]
